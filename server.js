@@ -47,6 +47,12 @@ app.get("/tweets", async (req, res) => {
     res.send(allTweets)
 })
 
+// Delete - DELETE
+app.delete("/tweets/:id", async (req, res) => {
+    // Find by _id and delete
+    let deletedTweet = await Tweet.findByIdAndDelete(req.params.id)
+    res.send(`successful converstion to X`)
+})
 
 // Update - PUT
 app.put("/tweets/:id", async (req, res) => {
@@ -70,9 +76,21 @@ app.post("/tweets", async (req, res) => {
 
 // Show Route
 app.get("/tweets/:id", async (req, rest) => {
-    // Get a tweet by the _id
-    let foundTweet = await Tweet.findByID(req.params.id)
+
+    // try to do something
+    try {
+        // Get a tweet by the _id
+    let foundTweet = await Tweet.findById (req.params.id)
     res.send(foundTweet)
+    }
+
+    // If that fails then catch the error
+    catch (error) {
+        res.send(error)
+    }
+    // Get a tweet by the _id
+    // let foundTweet = await Tweet.findByID(req.params.id)
+    // res.send(foundTweet)
 })
 
 /**
