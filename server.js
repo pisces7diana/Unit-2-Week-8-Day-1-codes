@@ -13,7 +13,6 @@ const PORT = process.env.PORT || 3013;
 // bring in our model
 const Tweet = require("./models/Tweet.js")
 
-
 /**
  * Database Configuration
  */
@@ -31,7 +30,7 @@ db.on("closed", () => console.log("mongo disconnected"))
  */
 
 app.use(morgan("dev")) // Logger
-app.use(express.urlencoded({ extended: true })) // body parser
+app.use(express.urlencoded({extended: true})) // body parser
 
 /**
  * Routes
@@ -57,12 +56,12 @@ app.delete("/tweets/:id", async (req, res) => {
 // Update - PUT
 app.put("/tweets/:id", async (req, res) => {
     const id = req.params.id
-    const newTweet = req.body
+    const newTweet = req.body 
     // Find by _id and then update
     let updatedTweet = await Tweet.findByIdAndUpdate(
-        id, // the id of what we're looking for
-        newTweet, // the data to update with
-        {new: true} // we want to see the new data, not the old
+            id, // the id of what we are looking for
+            newTweet, // the data to update with
+            { new: true } // we want to see the new data, not the old
         )
     res.send(updatedTweet)
 })
@@ -74,24 +73,13 @@ app.post("/tweets", async (req, res) => {
     res.send(newTweet)
 })
 
-// Show Route
-app.get("/tweets/:id", async (req, rest) => {
-
-    // try to do something
-    try {
-        // Get a tweet by the _id
-    let foundTweet = await Tweet.findById (req.params.id)
-    res.send(foundTweet)
-    }
-
-    // If that fails then catch the error
-    catch (error) {
-        res.send(error)
-    }
+// Show route
+app.get("/tweets/:id", async (req, res) => {
     // Get a tweet by the _id
-    // let foundTweet = await Tweet.findByID(req.params.id)
-    // res.send(foundTweet)
+    let foundTweet = await Tweet.findById(req.params.id)
+    res.send(foundTweet)
 })
+
 
 /**
  * Server Listener
