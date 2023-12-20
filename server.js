@@ -10,6 +10,9 @@ const morgan = require("morgan")
 const app = express()
 const PORT = process.env.PORT || 3013;
 
+// bring in our model
+const Tweet = require("./models/Tweet.js")
+
 
 /**
  * Database Configuration
@@ -27,11 +30,29 @@ db.on("closed", () => console.log("mongo disconnected"))
  * Middleware
  */
 
-app.use(morgan("dev"))
+app.use(morgan("dev")) // Logger
+app.use(express.urlencoded({ extended: true })) // body parser
 
 /**
  * Routes
  */
+
+// INDUCES
+
+// Index - GET
+app.get("/tweets", async (req, res) => {
+    // Find all fo the tweets in our collection
+    let allTweets = await Tweet.find({}) // find all of the object that match our Tweet model
+
+    res.send(allTweets)
+})
+
+// Create - POST
+app.post("/tweets", async (req, res) => {
+    // Use the Tweet model to create a new tweet
+    let newTweet = await Tweet.create(req.body)
+    res.send(newTweet)
+})
 
 /**
  * Server Listener
