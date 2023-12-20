@@ -47,11 +47,20 @@ app.get("/tweets", async (req, res) => {
     res.send(allTweets)
 })
 
+
+
 // Create - POST
 app.post("/tweets", async (req, res) => {
     // Use the Tweet model to create a new tweet
     let newTweet = await Tweet.create(req.body)
     res.send(newTweet)
+})
+
+// Show Route
+app.get("/tweets/:id", async (req, rest) => {
+    // Get a tweet by the _id
+    let foundTweet = await Tweet.findByID(req.params.id)
+    res.send(foundTweet)
 })
 
 /**
