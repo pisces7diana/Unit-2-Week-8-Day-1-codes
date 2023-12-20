@@ -48,6 +48,18 @@ app.get("/tweets", async (req, res) => {
 })
 
 
+// Update - PUT
+app.put("/tweets/:id", async (req, res) => {
+    const id = req.params.id
+    const newTweet = req.body
+    // Find by _id and then update
+    let updatedTweet = await Tweet.findByIdAndUpdate(
+        id, // the id of what we're looking for
+        newTweet, // the data to update with
+        {new: true} // we want to see the new data, not the old
+        )
+    res.send(updatedTweet)
+})
 
 // Create - POST
 app.post("/tweets", async (req, res) => {
